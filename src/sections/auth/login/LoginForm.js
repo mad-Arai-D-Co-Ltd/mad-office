@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import axios from 'axios';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
@@ -8,13 +9,18 @@ import { LoadingButton } from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
 
+// api
+import api from '../../../config/services';
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [adminUser, setAdminUser] = useState([]);
+  const [dataerrors, setErrors] = useState({});
 
+  
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required'),
@@ -24,11 +30,49 @@ export default function LoginForm() {
     initialValues: {
       email: '',
       password: '',
-      remember: true,
+      platform: 'web',
     },
     validationSchema: LoginSchema,
     onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+      const postUrl = api.login;
+      const dataSend = values;
+
+      const config = {
+        method: 'post',
+        url: postUrl,
+        headers: {
+          'Content-Type': 'application/json',
+          platform: 'web',
+          fcmToken: '0',
+        },
+        data: dataSend,
+      };
+
+      axios(config)
+        .then((res) => {
+          const { data } = res;
+          
+          if (data.type === 'success') {
+            setAdminUser(data.data);
+            const resdata = data.data;
+            localStorage.setItem('userInfo', JSON.stringify(resdata));
+            localStorage.setItem('accessToken', data.token);
+
+            navigate('/dashboard', { replace: true });
+          } else {
+            errors.email = 'อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง';
+            formik.setErrors(errors);
+            setErrors(dataerrors);
+            formik.setSubmitting(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+
+          errors.email = 'อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง';
+          formik.setErrors(errors);
+          formik.setSubmitting(false);
+        });
     },
   });
 

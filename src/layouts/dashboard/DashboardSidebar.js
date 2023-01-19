@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
+import jwtDecode from "jwt-decode";
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
@@ -43,7 +44,12 @@ DashboardSidebar.propTypes = {
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
-
+  let userdata = localStorage.getItem('userInfo');
+  userdata = userdata ? JSON.parse(userdata) : null;
+  let decodeData;
+  if(userdata !== null){
+    decodeData = jwtDecode(userdata.token);
+  }
   const isDesktop = useResponsive('up', 'lg');
 
   useEffect(() => {
@@ -70,10 +76,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             <Avatar src={account.photoURL} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {decodeData.payload.firstName} {decodeData.payload.lastName}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
+              {decodeData.payload.roles[0].name}
               </Typography>
             </Box>
           </AccountStyle>
