@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useRef, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
@@ -47,19 +48,20 @@ export default function AccountPopover() {
   };
 
   const handleLogout = () => {
-    logout();
+    localStorage.clear();
+            window.location.reload();
+    // logout();
   };
 
   const logout = () => {
-    const postUrl = api.login;
-
+    const postUrl = api.logout;
       const config = {
         method: 'post',
         url: postUrl,
         headers: {
           'Content-Type': 'application/json',
           platform: 'web',
-          fcmToken: userdata.token,
+          Authorization: `Bearer ${userdata.token}`,
         },
       };
 
@@ -74,8 +76,6 @@ export default function AccountPopover() {
         })
         .catch((err) => {
           console.log(err);
-          formik.setErrors(errors);
-          formik.setSubmitting(false);
         });
   }
 

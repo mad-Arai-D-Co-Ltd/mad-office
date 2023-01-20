@@ -8,10 +8,14 @@ const ip = {
     apiUrl: `${apiIp}`,
     // login
     login: `${apiIp}/api/v1/auth/login`,
-    loout: `${apiIp}/api/v1/auth/loout`,
+    logout: `${apiIp}/api/v1/auth/logout`,
 
     // user
     applicantList: `${apiIp}/api/v1/applicant/applicants`,
+    reviewApplicant: `${apiIp}/api/v1/review/create-review`,
+
+    getUserReview : `${apiIp}/api/v1/review/review-applicants`,
+    
   
   };
   

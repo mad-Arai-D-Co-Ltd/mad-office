@@ -71,7 +71,7 @@ export default function Applicants() {
           </Stack>
         </Stack>
 
-        <ApplicantList applicants={applicantList} />
+        <ApplicantList applicants={applicantList} getApplicantList={getApplicantList}/>
       </Container>
     </Page>
   );

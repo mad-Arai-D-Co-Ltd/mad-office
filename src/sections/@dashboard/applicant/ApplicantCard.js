@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 // material
-import { Box, Card, Link, Typography, Stack } from '@mui/material';
+import { Box, Card, Link, Typography, Stack,Button } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import PersonIcon from '@mui/icons-material/Person';
 import { styled } from '@mui/material/styles';
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
 // components
-import Label from '../../../components/Label';
+import ApplicantPopover from './ApplicantPopover';
 
 // ----------------------------------------------------------------------
 
@@ -26,9 +26,9 @@ ApplicantCard.propTypes = {
   applicant: PropTypes.object,
 };
 
-export default function ApplicantCard({ applicant }) {
-  const { id , jobApplicationType , gender , name , mobile ,expectSalary,position} = applicant;
-
+export default function ApplicantCard({ applicant ,getApplicantList}) {
+  const { id , jobApplicationType , gender , name , mobile ,expectSalary,position,avgRate} = applicant;
+  const rating = avgRate === null ? '0':avgRate;
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
@@ -55,14 +55,14 @@ export default function ApplicantCard({ applicant }) {
                 color:'#7A7A7A',
               }}
         >
-            {"5"}
+            {rating}
           </Typography>
         {/* <ProductImgStyle alt={name} src={cover} /> */}
         <PersonIcon sx={{top: 0,
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
-  position: 'absolute',}} />
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          position: 'absolute',}} />
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
@@ -86,6 +86,7 @@ export default function ApplicantCard({ applicant }) {
             {fCurrency(expectSalary)}&nbsp;/&nbsp;{"month"}
           </Typography>
         </Stack>
+          <ApplicantPopover applicant={applicant} getApplicantList={getApplicantList}/>
       </Stack>
     </Card>
   );
