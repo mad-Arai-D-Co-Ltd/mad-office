@@ -6,9 +6,9 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 
 import Blog from './pages/Blog';
 import User from './pages/User';
-import Login from './pages/Login';
+import Login from './pages/login';
 import NotFound from './pages/Page404';
-import Register from './pages/Register';
+import Register from './pages/register';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 
