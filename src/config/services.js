@@ -1,6 +1,6 @@
 const ip = {
     localhost: 'http://localhost:3001',
-    production: 'http://52.76.248.13',
+    production: 'https://52.76.248.13',
   };
   const apiIp = process.env.NODE_ENV === 'production' ? ip.production : ip.localhost;
   
