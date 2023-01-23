@@ -18,7 +18,7 @@ const navConfig = [
   },
   {
     title: 'applicant',
-    path: '/dashboard/mad-user/applicants',
+    path: '/dashboard/applicants',
     icon: getIcon('eva:people-fill'),
   },
  

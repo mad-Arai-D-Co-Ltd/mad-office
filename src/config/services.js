@@ -11,6 +11,11 @@ const ip = {
     logout: `${apiIp}/api/v1/auth/logout`,
 
     // user
+    userList: `${apiIp}/api/v1/user/user-list`,
+    createUser: `${apiIp}/api/v1/user/create-user`,
+    roleList : `${apiIp}/api/v1/user/role-list`,
+    
+    // user
     applicantList: `${apiIp}/api/v1/applicant/applicants`,
     reviewApplicant: `${apiIp}/api/v1/review/create-review`,
 

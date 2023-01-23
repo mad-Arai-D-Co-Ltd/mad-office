@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { useState ,useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
+import jwtDecode from "jwt-decode";
 // material
 import { Container, Stack, Typography,Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -15,9 +17,20 @@ import api from '../config/services';
 export default function Applicants() {
   const [openFilter, setOpenFilter] = useState(false);
 
+  const userData = JSON.parse(localStorage.getItem('userInfo'));
+  const decodeData = jwtDecode(userData.token);
+  const navigate = useNavigate();
+
   useEffect(() => {
+    checkNavi();
     getApplicantList();
   }, []);
+
+  const checkNavi = () => {
+    if (decodeData.payload.roles[0].name === 'Chief' || decodeData.payload.roles[0].name === 'Employee') {
+      navigate("/");
+    }
+  }
 
   const handleOpenFilter = () => {
     setOpenFilter(true);

@@ -159,8 +159,8 @@ export default function ApplicantPopover({applicant,getApplicantList,...other}) 
   return (
     <>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Button variant='contained' color='info' onClick={handlePopup}>Detail</Button>
-          <Button variant='contained' color='success'>Review</Button>
+          <Button variant='contained' color='info' onClick={handlePopup} sx={{width:"100%"}}>Detail</Button>
+          {/* <Button variant='contained' color='success'>Review</Button> */}
         </Stack>
         
         <Modal
