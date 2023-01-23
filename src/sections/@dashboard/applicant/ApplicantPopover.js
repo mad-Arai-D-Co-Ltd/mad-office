@@ -29,6 +29,7 @@ export default function ApplicantPopover({applicant,getApplicantList,...other}) 
   const [socialSkillRate, setSocialSkillRate] = useState(0);
   const [academicScoreRate, setAcademicScoreRate] = useState(0);
   const [otherSkillRate, setOtherSkillRate] = useState(0);
+  const [comment, setComment] = useState("");
   const [inputData, SetInputData] = useState({});
   
   const [disabledSaveBtn,setDisabledSaveBtn] = useState(false);
@@ -81,7 +82,7 @@ export default function ApplicantPopover({applicant,getApplicantList,...other}) 
   
 
   const handlePopup = () => {
-    setOpen(!open);
+    resetRate();
     getUserReview();
     if(userReview.length > 0){
       setWorkSkillRate(userReview[0].workSkillRate);
@@ -93,6 +94,7 @@ export default function ApplicantPopover({applicant,getApplicantList,...other}) 
       setOtherSkillRate(userReview[0].otherSkillRate);
       setDisabledSaveBtn(true);
     }
+    setOpen(!open);
   };
 
   const handlePopupClose = () => {
@@ -181,40 +183,80 @@ export default function ApplicantPopover({applicant,getApplicantList,...other}) 
 
           <Stack sx={{display:'flex',flexDirection: 'row',justifyContent: 'center'}}>
               <Box sx={{display:'flex',flexDirection: 'column',width : '70%',overflowY: 'auto',height: '50vh',padding:'1rem'}}>
-                  <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
-                    <Typography variant='subtitle1'> รูปแบบการสมัคร&nbsp;:&nbsp;{applicant.jobApplicationType} </Typography>
+                  <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                    <Typography variant='subtitle1'> รูปแบบการสมัคร&nbsp;:&nbsp;</Typography>
+                    <Typography variant='body1' color={"#363636"}>{applicant.jobApplicationType}</Typography> 
                   </Stack>
                   <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
-                    <Typography variant='subtitle1'> Position&nbsp;:&nbsp;{applicant.position} </Typography>
-                    <Typography variant='subtitle1'> Expect Salary&nbsp;:&nbsp;{fCurrency(expectedSalary)} </Typography>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1'> Position&nbsp;:&nbsp; </Typography> 
+                      <Typography variant='body1' color={"#363636"}>{applicant.position}</Typography>
+                    </Stack>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1'> Expect Salary&nbsp;:&nbsp; </Typography>
+                      <Typography variant='body1' color={"#363636"}>{fCurrency(expectedSalary)}</Typography>
+                    </Stack>
                   </Stack>
                   <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
-                    <Typography variant='subtitle1' > Email&nbsp;:&nbsp;{applicant.email} </Typography>
-                    <Typography variant='subtitle1' > Mobile&nbsp;:&nbsp;{applicant.mobile} </Typography>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > Email&nbsp;:&nbsp; </Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.email}</Typography>
+                    </Stack>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > Mobile&nbsp;:&nbsp; </Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.mobile}</Typography>
+                    </Stack>
                   </Stack>
                   <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
-                    <Typography variant='subtitle1' > Name&nbsp;:&nbsp;{applicant.name} </Typography>
-                    <Typography variant='subtitle1' > Gender&nbsp;:&nbsp;{applicant.gender} </Typography>
-                    <Typography variant='subtitle1' > Status&nbsp;:&nbsp;{applicant.status} </Typography>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > Name&nbsp;:&nbsp;</Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.name}</Typography>
+                    </Stack>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > Gender&nbsp;:&nbsp; </Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.gender}</Typography>
+                    </Stack>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > Status&nbsp;:&nbsp; </Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.status}</Typography>
+                    </Stack>
                   </Stack>
                   <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
-                    <Typography variant='subtitle1' > Id code&nbsp;:&nbsp;{applicant.idCode} </Typography>
-                    <Typography variant='subtitle1' > Date of birth : {applicant.dateOfBirth} </Typography>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > Id code&nbsp;:&nbsp; </Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.idCode}</Typography>
+                    </Stack>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > Date of birth : </Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.dateOfBirth}</Typography>
+                    </Stack>
                   </Stack>
                   <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
-                    <Typography variant='subtitle1' > Address&nbsp;:&nbsp;{applicant.address} </Typography>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > Address&nbsp;:&nbsp; </Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.address}</Typography>
+                    </Stack>
                   </Stack>
                   <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
                     <Typography variant='subtitle1' > Portfolio&nbsp;:&nbsp;<Link href={portfolio}>{portfolio}</Link> </Typography>
                   </Stack>
                   <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
-                    <Typography variant='subtitle1' > Ref.&nbsp;:&nbsp;{applicant.refEmployee} </Typography>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > Ref.&nbsp;:&nbsp; </Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.refEmployee}</Typography>
+                    </Stack>
                   </Stack>
                   <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
-                    <Typography variant='subtitle1' > Military&nbsp;:&nbsp;{applicant.military} </Typography>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > Military&nbsp;:&nbsp; </Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.military}</Typography>
+                    </Stack>
                   </Stack>
                   <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
-                    <Typography variant='subtitle1' > interest&nbsp;:&nbsp;{applicant.interest} </Typography>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > interest&nbsp;:&nbsp;</Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.interest}</Typography>
+                    </Stack>
                   </Stack>
                   <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
                     <TableContainer sx={{marginBottom:'1rem'}}>
@@ -251,24 +293,45 @@ export default function ApplicantPopover({applicant,getApplicantList,...other}) 
                     </TableContainer>
                   </Stack>
                   <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
-                    <Typography variant='subtitle1' > Target&nbsp;:&nbsp;{applicant.target} </Typography>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > Target&nbsp;:&nbsp; </Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.target}</Typography>
+                    </Stack>
                   </Stack>
                   <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
-                    <Typography variant='subtitle1' > success&nbsp;pride&nbsp;:&nbsp;{applicant.successPride} </Typography>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > success&nbsp;pride&nbsp;:&nbsp;{applicant.successPride} </Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.successPride}</Typography>
+                    </Stack>
                   </Stack>
                   <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
-                    <Typography variant='subtitle1' > People&nbsp;dont&nbsp;know&nbsp;:&nbsp;{applicant.peopleDontKnow} </Typography>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > People&nbsp;dont&nbsp;know&nbsp;:&nbsp; </Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.peopleDontKnow}</Typography>
+                    </Stack>
                   </Stack>
                   <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
-                    <Typography variant='subtitle1' > News&nbsp;from&nbsp;:&nbsp;{applicant.newsFrom} </Typography>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > News&nbsp;from&nbsp;:&nbsp; </Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.newsFrom}</Typography>
+                    </Stack>
                   </Stack>
                   <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
-                    <Typography variant='subtitle1' > About&nbsp;you&nbsp;:&nbsp;{applicant.aboutYou} </Typography>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > About&nbsp;you&nbsp;:&nbsp; </Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.aboutYou}</Typography>
+                    </Stack>
                   </Stack>
                   
                   <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'space-between'}}>
-                    <Typography variant='subtitle1' > Disease&nbsp;:&nbsp;{applicant.disease} </Typography>
-                    <Typography variant='subtitle1' > Emergency&nbsp;Contact&nbsp;:&nbsp;{applicant.emergencyContact} </Typography>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > Disease&nbsp;:&nbsp; </Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.disease}</Typography>
+                    </Stack>
+                    <Stack sx={{display:'flex',flexDirection: 'row',justifyContent:'flex-start'}}>
+                      <Typography variant='subtitle1' > Emergency&nbsp;Contact&nbsp;:&nbsp; </Typography>
+                      <Typography variant='body1' color={"#363636"}>{applicant.emergencyContact}</Typography>
+                    </Stack>
                   </Stack>
               </Box>
               <Box sx={{display:'flex',flexDirection: 'column',alignItems:'center',width : '30%'}}>
@@ -277,7 +340,7 @@ export default function ApplicantPopover({applicant,getApplicantList,...other}) 
                   <Typography component="legend">Work Skill Rate</Typography>
                   <Rating
                     name="simple-controlled"
-                    value={workSkillRate}
+                    value={userReview.length > 0 ? userReview[0].workSkillRate:workSkillRate}
                     onChange={(event, newValue) => {
                       setWorkSkillRate(newValue);
                     }}
@@ -289,7 +352,7 @@ export default function ApplicantPopover({applicant,getApplicantList,...other}) 
                   <Typography component="legend">Attitude Rate</Typography>
                   <Rating
                     name="simple-controlled"
-                    value={attitudeRate}
+                    value={userReview.length > 0 ? userReview[0].attitudeRate:attitudeRate}
                     onChange={(event, newValue) => {
                       setAttitudeRate(newValue);
                     }}
@@ -301,7 +364,7 @@ export default function ApplicantPopover({applicant,getApplicantList,...other}) 
                   <Typography component="legend">Professionalism Rate</Typography>
                   <Rating
                     name="simple-controlled"
-                    value={professionalismRate}
+                    value={userReview.length > 0 ? userReview[0].professionalismRate:professionalismRate}
                     onChange={(event, newValue) => {
                       setProfessionalismRate(newValue);
                     }}
@@ -313,7 +376,7 @@ export default function ApplicantPopover({applicant,getApplicantList,...other}) 
                   <Typography component="legend">Leadership Rate</Typography>
                   <Rating
                     name="simple-controlled"
-                    value={leadershipRate}
+                    value={userReview.length > 0 ? userReview[0].leadershipRate:leadershipRate}
                     onChange={(event, newValue) => {
                       setLeadershipRate(newValue);
                     }}
@@ -325,7 +388,7 @@ export default function ApplicantPopover({applicant,getApplicantList,...other}) 
                   <Typography component="legend">Social Skill Rate</Typography>
                   <Rating
                     name="simple-controlled"
-                    value={socialSkillRate}
+                    value={userReview.length > 0 ? userReview[0].socialSkillRate:socialSkillRate}
                     onChange={(event, newValue) => {
                       setSocialSkillRate(newValue);
                     }}
@@ -337,7 +400,7 @@ export default function ApplicantPopover({applicant,getApplicantList,...other}) 
                   <Typography component="legend">Academic Score Rate</Typography>
                   <Rating
                     name="simple-controlled"
-                    value={academicScoreRate}
+                    value={userReview.length > 0 ? userReview[0].academicScoreRate:academicScoreRate}
                     onChange={(event, newValue) => {
                       setAcademicScoreRate(newValue);
                     }}
@@ -349,7 +412,7 @@ export default function ApplicantPopover({applicant,getApplicantList,...other}) 
                   <Typography component="legend">Other Skill Rate</Typography>
                   <Rating
                     name="simple-controlled"
-                    value={otherSkillRate}
+                    value={userReview.length > 0 ? userReview[0].otherSkillRate:otherSkillRate}
                     onChange={(event, newValue) => {
                       setOtherSkillRate(newValue);
                     }}

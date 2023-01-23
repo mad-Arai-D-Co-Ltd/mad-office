@@ -27,7 +27,7 @@ ApplicantCard.propTypes = {
 };
 
 export default function ApplicantCard({ applicant ,getApplicantList}) {
-  const { id , jobApplicationType , gender , name , mobile ,expectSalary,position,avgRate} = applicant;
+  const { id , jobApplicationType , gender , name , mobile ,expectedSalary,position,avgRate,portfolio,portfolioFile,avatar} = applicant;
   const rating = avgRate === null ? '0':avgRate;
   return (
     <Card>
@@ -57,20 +57,30 @@ export default function ApplicantCard({ applicant ,getApplicantList}) {
         >
             {rating}
           </Typography>
-        {/* <ProductImgStyle alt={name} src={cover} /> */}
-        <PersonIcon sx={{top: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          position: 'absolute',}} />
+          { avatar !== null ?
+                <ProductImgStyle alt={name} src={avatar} />
+              :
+                <PersonIcon sx={{top: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  position: 'absolute',}} />
+              
+          }
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Link to="#" color="inherit" underline="hover" component={RouterLink}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Link to={portfolio !== null ? portfolio:portfolioFile} color="inherit" underline="hover" component={RouterLink}>
+            <Typography variant="subtitle2" noWrap>
+              {name}
+            </Typography>
+          </Link>
           <Typography variant="subtitle2" noWrap>
-            {name}
+              {gender}
           </Typography>
-        </Link>
+        </Stack>
+          
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Typography variant="subtitle2">
@@ -78,12 +88,17 @@ export default function ApplicantCard({ applicant ,getApplicantList}) {
           </Typography>
         </Stack>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Typography variant="subtitle2">
+          <Typography variant="subtitle2" fontSize={"0.8rem"}>
             {jobApplicationType}
           </Typography>
         
-          <Typography variant="subtitle2">
-            {fCurrency(expectSalary)}&nbsp;/&nbsp;{"month"}
+          <Typography variant="subtitle2" fontSize={"0.8rem"}>
+            {fCurrency(expectedSalary)}&nbsp;/&nbsp;{"month"}
+          </Typography>
+        </Stack>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Typography variant="subtitle2" fontSize={"0.8rem"}>
+            {"เบอร์โทร"}&nbsp;:&nbsp;{mobile}
           </Typography>
         </Stack>
           <ApplicantPopover applicant={applicant} getApplicantList={getApplicantList}/>
