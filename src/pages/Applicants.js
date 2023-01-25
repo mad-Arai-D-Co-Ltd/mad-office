@@ -24,6 +24,7 @@ export default function Applicants() {
   useEffect(() => {
     checkNavi();
     getApplicantList();
+    getPostionList();
   }, []);
 
   const checkNavi = () => {
@@ -38,6 +39,24 @@ export default function Applicants() {
 
   const handleCloseFilter = () => {
     setOpenFilter(false);
+  };
+
+  
+  // get list
+  const [positionList, setPositionList] = useState([]);
+  const getPostionList = () => {
+    const url = `${api.positionList}`;
+    axios
+      .get(url)
+      .then((res) => {
+        const { data } = res;
+        if (data.type === 'success') {
+          setPositionList(data.data.result);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // get list
@@ -57,7 +76,45 @@ export default function Applicants() {
       });
   };
 
-  
+  // get by filter
+  const [filter, setFilter] = useState({
+    jobType : "",
+    position : "",
+    price : [0,999999],
+    rateMin : 0,
+    rateMax : 5
+  });
+
+  const setInputFilter = (name,value) => {
+
+    setFilter((lastValue) => {
+      return {
+        ...lastValue,
+        [name]: value,
+      };
+    });
+
+  }
+
+  const handleFilter = () => {
+    getApplicantFilterList();
+  }
+
+  const getApplicantFilterList = () => {
+    const url = `${api.applicantFilter}`;
+    axios
+      .post(url,filter)
+      .then((res) => {
+        const { data } = res;
+        if (data.type === 'success') {
+          console.log(data);
+          setApplicantList(data.data.result);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Page title="Dashboard: Applicants">
@@ -79,6 +136,10 @@ export default function Applicants() {
               isOpenFilter={openFilter}
               onOpenFilter={handleOpenFilter}
               onCloseFilter={handleCloseFilter}
+              setInputFilter={setInputFilter}
+              handleFilter={handleFilter}
+              positionList={positionList}
+              filter={filter}
             />
             <ApplicantSort />
           </Stack>

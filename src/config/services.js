@@ -17,6 +17,8 @@ const ip = {
     
     // user
     applicantList: `${apiIp}/api/v1/applicant/applicants`,
+    applicantFilter: `${apiIp}/api/v1/applicant/filter-applicant`,
+    positionList: `${apiIp}/api/v1/applicant/position-applicant`,
     reviewApplicant: `${apiIp}/api/v1/review/create-review`,
 
     getUserReview : `${apiIp}/api/v1/review/review-applicants`,

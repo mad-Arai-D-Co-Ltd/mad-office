@@ -1,3 +1,4 @@
+import { useState ,useEffect} from 'react';
 import PropTypes from 'prop-types';
 // material
 import {
@@ -14,6 +15,9 @@ import {
   Typography,
   RadioGroup,
   FormControlLabel,
+  Autocomplete,
+  TextField,
+  Slider,
 } from '@mui/material';
 // components
 import Iconify from '../../../components/Iconify';
@@ -28,7 +32,7 @@ export const SORT_BY_OPTIONS = [
   { value: 'priceAsc', label: 'Price: Low-High' },
 ];
 export const FILTER_GENDER_OPTIONS = ['Men', 'Women', 'Kids'];
-export const FILTER_CATEGORY_OPTIONS = ['All', 'Shose', 'Apparel', 'Accessories'];
+export const FILTER_JOBTYPE_OPTIONS = ['All', 'พนักงานประจำ', 'Freelance'];
 export const FILTER_RATING_OPTIONS = ['up4Star', 'up3Star', 'up2Star', 'up1Star'];
 export const FILTER_PRICE_OPTIONS = [
   { value: 'below', label: 'Below $25' },
@@ -42,9 +46,47 @@ ApplicantFilterSidebar.propTypes = {
   isOpenFilter: PropTypes.bool,
   onOpenFilter: PropTypes.func,
   onCloseFilter: PropTypes.func,
+  setInputFilter: PropTypes.func,
+  handleFilter: PropTypes.func,
 };
 
-export default function ApplicantFilterSidebar({ isOpenFilter, onOpenFilter, onCloseFilter }) {
+function valuetext(value) {
+  return `฿${value}`;
+}
+
+export default function ApplicantFilterSidebar({ isOpenFilter, onOpenFilter, onCloseFilter, setInputFilter, handleFilter,positionList,filter }) {
+
+  const [valueJobType, setValueJobType] = useState("All");
+  const handleChangeJobType = (event, newValue) => {
+    setValueJobType(newValue);
+    setInputFilter("jobType",newValue);
+  };
+
+  const [valuePosition, setValuePosition] = useState(null);
+  const handleChangePostion = (event, newValue) => {
+    const value = newValue !== null ? newValue : {position:""}
+    setValuePosition(newValue);
+    setInputFilter("position",value.position);
+  };
+
+  const [valuePrice, setValuePrice] = useState(filter.price);
+  const handleChangePrice = (event, newValue) => {
+    setValuePrice(newValue);
+    setInputFilter("price",newValue);
+  };
+
+  const [valueRatingMin, setValueRatingMin] = useState(filter.rateMin);
+  const handleChangeRatingMin = (event, newValue) => {
+    setValueRatingMin(newValue);
+    setInputFilter("rateMin",newValue);
+  };
+
+  const [valueRatingMax, setValueRatingMax] = useState(filter.rateMax);
+  const handleChangeRatingMax = (event, newValue) => {
+    setValueRatingMax(newValue);
+    setInputFilter("rateMax",newValue);
+  };
+
   return (
     <>
       <Button disableRipple color="inherit" endIcon={<Iconify icon="ic:round-filter-list" />} onClick={onOpenFilter}>
@@ -56,7 +98,7 @@ export default function ApplicantFilterSidebar({ isOpenFilter, onOpenFilter, onC
         open={isOpenFilter}
         onClose={onCloseFilter}
         PaperProps={{
-          sx: { width: 280, border: 'none', overflow: 'hidden' },
+          sx: { width: 450, border: 'none', overflow: 'hidden' },
         }}
       >
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ px: 1, py: 2 }}>
@@ -72,7 +114,7 @@ export default function ApplicantFilterSidebar({ isOpenFilter, onOpenFilter, onC
 
         <Scrollbar>
           <Stack spacing={3} sx={{ p: 3 }}>
-            <div>
+            {/* <div>
               <Typography variant="subtitle1" gutterBottom>
                 Gender
               </Typography>
@@ -81,60 +123,73 @@ export default function ApplicantFilterSidebar({ isOpenFilter, onOpenFilter, onC
                   <FormControlLabel key={item} control={<Checkbox />} label={item} />
                 ))}
               </FormGroup>
-            </div>
-
+            </div> */}
             <div>
               <Typography variant="subtitle1" gutterBottom>
-                Category
+                Job Type
               </Typography>
-              <RadioGroup>
-                {FILTER_CATEGORY_OPTIONS.map((item) => (
-                  <FormControlLabel key={item} value={item} control={<Radio />} label={item} />
+              <RadioGroup 
+                name='jobType'
+                value={valueJobType}
+                onChange={handleChangeJobType}
+              >
+                {FILTER_JOBTYPE_OPTIONS.map((item) => (
+                  <FormControlLabel key={item} name={'jobType'} value={item} control={<Radio />} label={item} />
                 ))}
               </RadioGroup>
             </div>
-
+            <div>
+              <Typography variant="subtitle1" gutterBottom>
+                Postion
+              </Typography>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                name='position'
+                value={valuePosition}
+                options={positionList}
+                getOptionLabel={(option) => option.position}
+                filterSelectedOptions
+                onChange={handleChangePostion}
+                sx={{ width: 300 }}
+                renderInput={(params) => <TextField {...params} label="Position" />}
+              />
+            </div>
             <div>
               <Typography variant="subtitle1" gutterBottom>
                 Price
               </Typography>
-              <RadioGroup>
-                {FILTER_PRICE_OPTIONS.map((item) => (
-                  <FormControlLabel key={item.value} value={item.value} control={<Radio />} label={item.label} />
-                ))}
-              </RadioGroup>
+              <Slider
+                getAriaLabel={() => 'Temperature range'}
+                name="price"
+                value={valuePrice}
+                min={0}
+                max={1000000}
+                onChange={handleChangePrice}
+                valueLabelDisplay="auto"
+                getAriaValueText={valuetext}
+              />
             </div>
 
             <div>
               <Typography variant="subtitle1" gutterBottom>
                 Rating
               </Typography>
-              <RadioGroup>
-                {FILTER_RATING_OPTIONS.map((item, index) => (
-                  <FormControlLabel
-                    key={item}
-                    value={item}
-                    control={
-                      <Radio
-                        disableRipple
-                        color="default"
-                        icon={<Rating readOnly value={4 - index} />}
-                        checkedIcon={<Rating readOnly value={4 - index} />}
-                      />
-                    }
-                    label="& Up"
-                    sx={{
-                      my: 0.5,
-                      borderRadius: 1,
-                      '& > :first-of-type': { py: 0.5 },
-                      '&:hover': {
-                        opacity: 0.48,
-                        '& > *': { bgcolor: 'transparent' },
-                      },
-                    }}
+              <Stack sx={{display:"flex",flexDirection:"row",justifyContent:"space-evenly"}}>
+                <Rating
+                    name="rateMin"
+                    value={valueRatingMin}
+                    onChange={handleChangeRatingMin}
+                    defaultValue={0}
                   />
-                ))}
-              </RadioGroup>
+                  <Typography> To </Typography>
+                <Rating
+                    name="rateMax"
+                    value={valueRatingMax}
+                    onChange={handleChangeRatingMax}
+                    defaultValue={5}
+                  />
+              </Stack>
             </div>
           </Stack>
         </Scrollbar>
@@ -147,8 +202,9 @@ export default function ApplicantFilterSidebar({ isOpenFilter, onOpenFilter, onC
             color="inherit"
             variant="outlined"
             startIcon={<Iconify icon="ic:round-clear-all" />}
+            onClick={handleFilter}
           >
-            Clear All
+            Search
           </Button>
         </Box>
       </Drawer>
