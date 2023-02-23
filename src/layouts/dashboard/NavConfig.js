@@ -21,6 +21,16 @@ const navConfig = [
     path: '/dashboard/applicants',
     icon: getIcon('eva:people-fill'),
   },
+  {
+    title: 'repair',
+    path: '/dashboard/repairs',
+    icon: getIcon('eva:people-fill'),
+  },
+  {
+    title: 'order',
+    path: '/dashboard/orders',
+    icon: getIcon('eva:people-fill'),
+  },
  
   // {
   //   title: 'login',

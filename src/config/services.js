@@ -22,6 +22,14 @@ const ip = {
     reviewApplicant: `${apiIp}/api/v1/review/create-review`,
 
     getUserReview : `${apiIp}/api/v1/review/review-applicants`,
+
+    // repair
+    requestRepairList : `${apiIp}/api/v1/repair/find`,
+    updateRepairStatus : `${apiIp}/api/v1/repair/update`,
+
+    // order
+    requestOrderList : `${apiIp}/api/v1/order/find`,
+    updateOrderStatus : `${apiIp}/api/v1/order/update`,
     
   
   };

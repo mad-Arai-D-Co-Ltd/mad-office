@@ -13,6 +13,8 @@ import Products from './pages/products';
 import DashboardApp from './pages/DashboardApp';
 
 import Applicants from './pages/Applicants';
+import Repairs from './pages/Repair';
+import Orders from './pages/Order';
 
 // ----------------------------------------------------------------------
 
@@ -59,7 +61,8 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'applicants', element: <Applicants /> },
-        
+        { path: 'repairs' , element: <Repairs/>},
+        { path: 'orders' , element: <Orders/>},
         { path: 'blog', element: <Blog /> },
       ],
     },
