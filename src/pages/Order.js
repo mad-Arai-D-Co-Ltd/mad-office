@@ -55,7 +55,7 @@ export default function Repair() {
           <Button variant={state === "ไม่รับคำร้อง"?'contained':'outlined'} color='error' onClick={()=>handleFindNewList("ไม่รับคำร้อง")}>ไม่รับคำร้อง</Button>
           <Button variant={state === "รอการตรวจสอบ"?'contained':'outlined'} color='info' onClick={()=>handleFindNewList("รอการตรวจสอบ")}>รอการตรวจสอบ</Button>
           <Button variant={state === "กำลังตรวจสอบ"?'contained':'outlined'} color='warning' onClick={()=>handleFindNewList("กำลังตรวจสอบ")}>กำลังตรวจสอบ</Button>
-          <Button variant={state === "แก้ไขแล้ว"?'contained':'outlined'} color='success' onClick={()=>handleFindNewList("แก้ไขแล้ว")}>แก้ไขแล้ว</Button>
+          <Button variant={state === "สั่งซื้อแล้ว"?'contained':'outlined'} color='success' onClick={()=>handleFindNewList("สั่งซื้อแล้ว")}>สั่งซื้อแล้ว</Button>
         </Stack>
 
         <Grid container spacing={3}>
