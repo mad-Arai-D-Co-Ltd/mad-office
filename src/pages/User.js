@@ -35,7 +35,7 @@ import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+import { UserListHead, UserListToolbar, UserMoreMenu,UserUpdateVacation } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
 // api
@@ -44,10 +44,10 @@ import api from '../config/services';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'email', label: 'email', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'lastLogin', label: 'Last Login', alignRight: false },
+  { id: 'name', label: 'Name' },
+  { id: 'email', label: 'email' },
+  { id: 'role', label: 'Role' },
+  { id: 'leave', label: 'วันลา' },
   { id: '' },
 ];
 
@@ -335,7 +335,7 @@ export default function User() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, firstName,lastName, roles, email, lastLogin } = row;
+                    const { id, firstName,lastName, roles, email, lastLogin,vacations } = row;
                     const isItemSelected = selected.indexOf(firstName) !== -1;
 
                     return (
@@ -350,19 +350,55 @@ export default function User() {
                         <TableCell padding="checkbox">
                           {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, firstName)} /> */}
                         </TableCell>
-                        <TableCell component="th" scope="row" padding="none">
-                          <Stack direction="row" alignItems="center" spacing={2}>
+                        <TableCell align="center" component="th" scope="row" padding="none">
+                          <Stack direction="row" justifyContent="center" spacing={2}>
                             <Typography variant="subtitle2" noWrap>
                               {firstName} {lastName}
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{email}</TableCell>
-                        <TableCell align="left">{roles[0].name}</TableCell>
-                        <TableCell align="left">{lastLogin}</TableCell>
+                        <TableCell align="center">{email}</TableCell>
+                        <TableCell align="center">{roles[0].name}</TableCell>
+                        <TableCell align="center">{vacations.length > 0 ? 
+                          <Box sx={{display:"flex",flexDirection:"row",justifyContent:"space-evenly"}}>
+                            <Stack sx={{display:"flex",flexDirection:"column"}}>
+                              <Typography variant='subtitle1' fontSize={12} textAlign="center">
+                                วันลาพักร้อน
+                              </Typography>
+                              <Typography variant='body2' fontSize={12} textAlign="center">
+                              {vacations[0].vacationLeave }
+                              </Typography>
+                            </Stack>
+                            <Stack sx={{display:"flex",flexDirection:"column"}}>
+                              <Typography variant='subtitle1' fontSize={12} textAlign="center">
+                                วันลาป่วย
+                              </Typography>
+                              <Typography variant='body2' fontSize={12} textAlign="center">
+                              {vacations[0].sickLeave }
+                              </Typography>
+                            </Stack>
+                            <Stack sx={{display:"flex",flexDirection:"column"}}>
+                              <Typography variant='subtitle1' fontSize={12} textAlign="center">
+                                วันลากิจ
+                              </Typography>
+                              <Typography variant='body2' fontSize={12} textAlign="center">
+                              {vacations[0].personalLeave }
+                              </Typography>
+                            </Stack>
+                            <Stack sx={{display:"flex",flexDirection:"column"}}>
+                              <Typography variant='subtitle1' fontSize={12} textAlign="center">
+                                ลาไม่รับเงิน
+                              </Typography>
+                              <Typography variant='body2' fontSize={12} textAlign="center">
+                              {vacations[0].leaveWithoutPayment }
+                              </Typography>
+                            </Stack>
+                          </Box>
+                          
+                          : <Box sx={{display:'flex',justifyContent:'center'}}>ไม่มีข้อมูล วันลา</Box>}</TableCell>
 
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <UserUpdateVacation usersId={id} vacations={vacations} getUserList={getUserList}/>
                         </TableCell>
                       </TableRow>
                     );

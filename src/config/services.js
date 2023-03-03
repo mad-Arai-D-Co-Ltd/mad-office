@@ -14,6 +14,7 @@ const ip = {
     userList: `${apiIp}/api/v1/user/user-list`,
     createUser: `${apiIp}/api/v1/user/create-user`,
     roleList : `${apiIp}/api/v1/user/role-list`,
+    updateVacation : `${apiIp}/api/v1/vacation/update-vacation`,
     
     // user
     applicantList: `${apiIp}/api/v1/applicant/applicants`,

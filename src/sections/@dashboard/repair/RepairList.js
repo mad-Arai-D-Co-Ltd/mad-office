@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect,useState } from 'react';
+import { useEffect,useState,useRef } from 'react';
 import PropTypes from 'prop-types';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,7 +8,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { TextField,Button,Collapse,Typography } from '@mui/material';
+import { Box,TextField,Button,Collapse,Typography, Menu, MenuItem, IconButton, ListItemIcon, ListItemText, Switch } from '@mui/material';
+
+// component
+import CircleIcon from '@mui/icons-material/Circle';
+import Iconify from '../../../components/Iconify';
 // api
 import api from '../../../config/services';
 
@@ -17,6 +21,8 @@ RepairList.propTypes = {
   };
 
 export default function RepairList({requests,state,getRepairList, ...other }) {
+  const ref = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
 
     const handleChangeStatus = (id,state) => {
         const data = {
@@ -45,12 +51,33 @@ export default function RepairList({requests,state,getRepairList, ...other }) {
           });
        }
 
+       const checkColor = (status) => {
+        let color;
+        switch (status) {
+          case "ไม่รับคำร้อง":
+            color = 'error';
+            break;
+          case "รอการตรวจสอบ":
+            color = 'info';
+            break;
+          case "กำลังตรวจสอบ":
+            color = 'warning';
+            break;
+          default:
+            color = 'success';
+            break;
+        }
+        return color;
+      }
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="center">ข้อมูลสั่งซ่อม</TableCell>
+            <TableCell align="center">ความเร่งด่วน</TableCell>
+            <TableCell align="center">สถานะ</TableCell>
             <TableCell align="center">ปรับสถานะ</TableCell>
           </TableRow>
         </TableHead>
@@ -63,11 +90,45 @@ export default function RepairList({requests,state,getRepairList, ...other }) {
               <TableCell align="center">
                 {request.detail}
               </TableCell>
-                <TableCell align="center" sx={{display:"flex",flexDirection:"row",justifyContent:"space-evenly"}}>
-                    <Button variant='contained' color='error' onClick={()=>handleChangeStatus(request.id,"ไม่รับคำร้อง")} >ไม่รับคำร้อง</Button>
-                    <Button variant='contained' color='warning' onClick={()=>handleChangeStatus(request.id,"กำลังตรวจสอบ")} >กำลังตรวจสอบ</Button>
-                    <Button variant='contained' color='success' onClick={()=>handleChangeStatus(request.id,"แก้ไขแล้ว")} >เเก้ไขเเล้ว</Button>
-                </TableCell>
+              <TableCell align="center">
+                {request.urgency}
+              </TableCell>
+              <TableCell align="center">
+                <Box  sx={{display:"flex",flexDirection:"row",justifyContent:"center",alignContent:"center"}}>
+                  <CircleIcon color={checkColor(request.status)}/>
+                  {request.status}
+                </Box>
+                
+              </TableCell>
+              <TableCell align="center">
+                <Button ref={ref} onClick={() => setIsOpen(true)}>
+                  <Iconify icon="eva:more-vertical-fill" width={20} height={20} />
+                  <Typography variant='body1'>เปลี่ยนสถานะ</Typography>
+                </Button>
+                <Menu
+                  open={isOpen}
+                  anchorEl={ref.current}
+                  onClose={() => setIsOpen(false)}
+                  PaperProps={{
+                    sx: { width: 200, maxWidth: '100%' },
+                  }}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                  <MenuItem onClick={()=>handleChangeStatus(request.id,"ไม่รับคำร้อง")} sx={{ color: 'text.secondary' }}>
+                    <ListItemText>ไม่รับคำร้อง</ListItemText>
+                  </MenuItem>
+                  <MenuItem onClick={()=>handleChangeStatus(request.id,"กำลังตรวจสอบ")} sx={{ color: 'text.secondary' }}>
+                    <ListItemText>กำลังตรวจสอบ</ListItemText>
+                  </MenuItem>
+                  <MenuItem onClick={()=>handleChangeStatus(request.id,"แก้ไขแล้ว")} sx={{ color: 'text.secondary' }}>
+                    <ListItemText>เเก้ไขเเล้ว</ListItemText>
+                  </MenuItem>
+                  
+                  
+                </Menu>
+                    
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
