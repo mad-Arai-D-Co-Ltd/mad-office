@@ -73,6 +73,22 @@ export default function VacationList({requests,state,getVacationList, ...other }
       return color;
     }
 
+    const checkStatusText = (status) => {
+        let color;
+        switch (status) {
+          case "reject":
+            color = 'ไม่อนุมัติ';
+            break;
+          case "pending":
+            color = 'รอการอนุมัติ';
+            break;
+          default:
+            color = 'อนุมัติ';
+            break;
+        }
+        return color;
+      }
+
     const checkType = (status) => {
         let text;
         switch (status) {
@@ -126,7 +142,7 @@ export default function VacationList({requests,state,getVacationList, ...other }
               <TableCell align="center">
                 <Box  sx={{display:"flex",flexDirection:"row",justifyContent:"center",alignContent:"center"}}>
                   <CircleIcon color={checkColor(request.approveStatus)}/>
-                  {request.approveStatus}
+                  {checkStatusText(request.approveStatus)}
                 </Box>
                 
               </TableCell>
