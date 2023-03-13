@@ -32,6 +32,8 @@ const ip = {
     requestOrderList : `${apiIp}/api/v1/order/find`,
     updateOrderStatus : `${apiIp}/api/v1/order/update`,
     
+    // vacation
+    requestVacationList : `${apiIp}/api/v1/vacation/find`,
   
   };
   

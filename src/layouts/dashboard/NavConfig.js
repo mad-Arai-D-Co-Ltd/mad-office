@@ -17,6 +17,11 @@ const navConfig = [
     icon: getIcon('eva:people-fill'),
   },
   {
+    title: 'user request vacation',
+    path: '/dashboard/vacations',
+    icon: getIcon('icon-park-twotone:vacation'),
+  },
+  {
     title: 'applicant',
     path: '/dashboard/applicants',
     icon: getIcon('eva:people-fill'),
@@ -24,12 +29,12 @@ const navConfig = [
   {
     title: 'repair',
     path: '/dashboard/repairs',
-    icon: getIcon('eva:people-fill'),
+    icon: getIcon('fluent-mdl2:repair'),
   },
   {
     title: 'order',
     path: '/dashboard/orders',
-    icon: getIcon('eva:people-fill'),
+    icon: getIcon('material-symbols:order-approve-rounded'),
   },
  
   // {

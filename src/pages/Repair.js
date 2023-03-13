@@ -51,7 +51,7 @@ export default function Repair() {
           </Typography>
         </Stack>
 
-        <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
+        <Stack mb={5} direction="row" alignItems="center" justifyContent="flex-end">
           <Button variant={state === "ไม่รับคำร้อง"?'contained':'outlined'} color='error' onClick={()=>handleFindNewList("ไม่รับคำร้อง")}>ไม่รับคำร้อง</Button>
           <Button variant={state === "รอการตรวจสอบ"?'contained':'outlined'} color='info' onClick={()=>handleFindNewList("รอการตรวจสอบ")}>รอการตรวจสอบ</Button>
           <Button variant={state === "กำลังตรวจสอบ"?'contained':'outlined'} color='warning' onClick={()=>handleFindNewList("กำลังตรวจสอบ")}>กำลังตรวจสอบ</Button>
